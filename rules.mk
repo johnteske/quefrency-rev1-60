@@ -1,1 +1,2 @@
+EXTRAKEY_ENABLE = no
 RGBLIGHT_ENABLE = no # WS2812 RGB underlight.
