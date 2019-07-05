@@ -38,13 +38,45 @@ void matrix_scan_user(void) {
     leading = false;
     leader_end();
 
+    // Logout
     SEQ_ONE_KEY(KC_Q) {
-      register_code(KC_LCTL);
-      register_code(KC_LGUI);
-      register_code(KC_Q);
-      unregister_code(KC_Q);
-      unregister_code(KC_LGUI);
-      unregister_code(KC_LCTL);
+      SEND_STRING(SS_LCTRL(SS_LGUI("q")));
+    }
+
+    // Spaces
+    SEQ_ONE_KEY(KC_1) {
+      SEND_STRING(SS_LCTRL(SS_LALT(SS_LGUI("1"))));
+    }
+    SEQ_ONE_KEY(KC_2) {
+      SEND_STRING(SS_LCTRL(SS_LALT(SS_LGUI("2"))));
+    }
+    SEQ_ONE_KEY(KC_3) {
+      SEND_STRING(SS_LCTRL(SS_LALT(SS_LGUI("3"))));
+    }
+    SEQ_ONE_KEY(KC_0) {
+      SEND_STRING(SS_LCTRL(SS_LALT(SS_LGUI("0"))));
+    }
+
+    // Slack
+    SEQ_ONE_KEY(KC_S) {
+      SEND_STRING(SS_LCTRL(SS_LALT(SS_LGUI("s"))));
+    }
+    SEQ_TWO_KEYS(KC_S, KC_S) {
+      SEND_STRING(SS_LGUI(SS_LSFT("a")));
+    }
+    SEQ_THREE_KEYS(KC_S, KC_S, KC_S) {
+      register_code(KC_LSHIFT);
+      register_code(KC_ESC);
+      unregister_code(KC_ESC);
+      unregister_code(KC_LSHIFT);
+    }
+
+    // chunkwm
+    SEQ_ONE_KEY(KC_F) {
+      SEND_STRING(SS_LCTRL(SS_LALT(SS_LGUI("f"))));
+    }
+    SEQ_ONE_KEY(KC_C) {
+      SEND_STRING(SS_LCTRL(SS_LALT(SS_LGUI("c"))));
     }
   }
 }
