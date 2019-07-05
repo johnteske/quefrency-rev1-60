@@ -58,6 +58,11 @@ void matrix_scan_user(void) {
       SEND_STRING(SS_LCTRL(SS_LALT(SS_LGUI("0"))));
     }
 
+    // Terminal window
+    SEQ_ONE_KEY(KC_T) {
+      SEND_STRING(SS_LCTRL(SS_LALT(SS_LGUI("t"))));
+    }
+
     // Slack
     SEQ_ONE_KEY(KC_S) {
       SEND_STRING(SS_LCTRL(SS_LALT(SS_LGUI("s"))));
