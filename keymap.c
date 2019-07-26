@@ -96,5 +96,8 @@ void matrix_scan_user(void) {
     SEQ_ONE_KEY(KC_C) {
       SEND_STRING(SS_LCTRL(SS_LALT(SS_LGUI("c"))));
     }
+    SEQ_ONE_KEY(KC_M) {
+      SEND_STRING(SS_LCTRL(SS_LALT(SS_LGUI("m"))));
+    }
   }
 }
