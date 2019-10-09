@@ -44,6 +44,12 @@ void matrix_scan_user(void) {
     }
 
     // Spaces
+    SEQ_ONE_KEY(KC_0) {
+      SEND_STRING(SS_LCTRL(SS_LALT(SS_LGUI("0"))));
+    }
+    SEQ_ONE_KEY(KC_H) {
+      SEND_STRING(SS_LCTRL(SS_LALT(SS_LGUI("h"))));
+    }
     SEQ_ONE_KEY(KC_1) {
       SEND_STRING(SS_LCTRL(SS_LALT(SS_LGUI("1"))));
     }
@@ -53,13 +59,15 @@ void matrix_scan_user(void) {
     SEQ_ONE_KEY(KC_3) {
       SEND_STRING(SS_LCTRL(SS_LALT(SS_LGUI("3"))));
     }
-    SEQ_ONE_KEY(KC_0) {
-      SEND_STRING(SS_LCTRL(SS_LALT(SS_LGUI("0"))));
-    }
 
-    // Terminal window
+    // iTerm window
     SEQ_ONE_KEY(KC_T) {
       SEND_STRING(SS_LCTRL(SS_LALT(SS_LGUI("t"))));
+    }
+
+    // Chrome window
+    SEQ_ONE_KEY(KC_N) {
+      SEND_STRING(SS_LCTRL(SS_LALT(SS_LGUI("n"))));
     }
 
     // tmux
@@ -68,7 +76,7 @@ void matrix_scan_user(void) {
       register_code(KC_SPC);
       unregister_code(KC_SPC);
       unregister_code(KC_LCTL);
-     }
+    }
 
     // vim split
     SEQ_ONE_KEY(KC_SPC) {
@@ -78,15 +86,6 @@ void matrix_scan_user(void) {
     // Slack
     SEQ_ONE_KEY(KC_S) {
       SEND_STRING(SS_LCTRL(SS_LALT(SS_LGUI("s"))));
-    }
-    SEQ_TWO_KEYS(KC_S, KC_S) {
-      SEND_STRING(SS_LGUI(SS_LSFT("a")));
-    }
-    SEQ_THREE_KEYS(KC_S, KC_S, KC_S) {
-      register_code(KC_LSHIFT);
-      register_code(KC_ESC);
-      unregister_code(KC_ESC);
-      unregister_code(KC_LSHIFT);
     }
 
     // chunkwm
@@ -98,6 +97,9 @@ void matrix_scan_user(void) {
     }
     SEQ_ONE_KEY(KC_M) {
       SEND_STRING(SS_LCTRL(SS_LALT(SS_LGUI("m"))));
+    }
+    SEQ_ONE_KEY(KC_R) {
+      SEND_STRING(SS_LCTRL(SS_LALT(SS_LGUI("r"))));
     }
   }
 }
