@@ -1,12 +1,14 @@
 #define B7_AUDIO  // B7 (timer 1) exposed on Elite-C
 #define NO_MUSIC_MODE
 
-// TODO timing issue https://github.com/qmk/qmk_firmware/issues/8825
-#undef TEMPO_DEFAULT
-#define TEMPO_DEFAULT 255
-
 // SEEGSON Rewire System Boot
-#define SEEGSON Q__NOTE(_C4), Q__NOTE(_REST), Q__NOTE(_E4), Q__NOTE(_REST), Q__NOTE(_G4), Q__NOTE(_REST), Q__NOTE(_C4), Q__NOTE(_REST), Q__NOTE(_E4), Q__NOTE(_REST), Q__NOTE(_G4), Q__NOTE(_REST), Q__NOTE(_C5)
+#define SEEGSON QD_NOTE(_C4), QD_NOTE(_REST), QD_NOTE(_E4), QD_NOTE(_REST), QD_NOTE(_G4), QD_NOTE(_REST), QD_NOTE(_C4), QD_NOTE(_REST), QD_NOTE(_E4), QD_NOTE(_REST), QD_NOTE(_G4), QD_NOTE(_REST), QD_NOTE(_C5),
+#define STARTUP_SONG SONG(SEEGSON)
+
+#undef AUDIO_ON_SOUND
+#define AUDIO_ON_SOUND E__NOTE(_C4), E__NOTE(_C5),
+#undef AUDIO_OFF_SOUND
+#define AUDIO_OFF_SOUND E__NOTE(_C5), E__NOTE(_C4),
 
 #define AUDIO_CLICKY
 #define AUDIO_CLICKY_FREQ_DEFAULT 70.0f

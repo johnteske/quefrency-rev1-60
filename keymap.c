@@ -92,16 +92,3 @@ bool process_record_user(uint16_t keycode, keyrecord_t* record) {
 }
 #    endif
 #endif
-
-/* =============
- * Startup sound
- * ============= */
-
-#ifdef AUDIO_ENABLE
-float s_seegson[][2] = SONG(SEEGSON);
-
-void startup_user() {
-    _delay_ms(10);  // gets rid of tick
-    PLAY_SONG(s_seegson);
-}
-#endif
