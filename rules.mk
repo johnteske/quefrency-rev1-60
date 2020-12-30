@@ -1,6 +1,6 @@
 AUDIO_ENABLE = yes
 
-#RGBLIGHT_ENABLE = yes
+RGBLIGHT_ENABLE = yes
 
 # unused
 CONSOLE_ENABLE = no
