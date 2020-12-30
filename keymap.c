@@ -3,6 +3,14 @@
 #define _BASE 0
 #define _FN1 1
 
+#ifdef RGBLIGHT_ENABLE
+#    define HSV_AMBER 32, 218, 255
+#endif
+
+#ifdef AUDIO_ENABLE
+#    define _LL_AUDIO 2
+#endif
+
 #define CTL_ESC LCTL_T(KC_ESC)
 #define SFT_SLS RSFT_T(KC_SLSH)
 
@@ -31,41 +39,63 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 /* clang-format on */
 
 #ifdef RGBLIGHT_LAYERS
-const rgblight_segment_t PROGMEM my_rgblight_layer_0[] = RGBLIGHT_LAYER_SEGMENTS({0, 1, HSV_WHITE});
+/* ============
+ * Light layers
+ * ============ */
 
-const rgblight_segment_t PROGMEM my_rgblight_layer_1[] = RGBLIGHT_LAYER_SEGMENTS({0, 2, HSV_WHITE});
-
+// Define light layers
+const rgblight_segment_t PROGMEM light_layer_base[] = RGBLIGHT_LAYER_SEGMENTS({0, 1, HSV_WHITE});
+const rgblight_segment_t PROGMEM light_layer_fn1[]  = RGBLIGHT_LAYER_SEGMENTS({0, 2, HSV_WHITE});
 #    ifdef AUDIO_ENABLE
-const rgblight_segment_t PROGMEM my_rgblight_layer_audio[] = RGBLIGHT_LAYER_SEGMENTS({7, 1, HSV_WHITE});
+const rgblight_segment_t PROGMEM light_layer_audio[] = RGBLIGHT_LAYER_SEGMENTS({7, 1, HSV_AMBER});
 #    endif
 
-const rgblight_segment_t* const PROGMEM my_rgblight_layers[] = RGBLIGHT_LAYERS_LIST(my_rgblight_layer_0, my_rgblight_layer_1,
+const rgblight_segment_t* const PROGMEM light_layers[] = RGBLIGHT_LAYERS_LIST(light_layer_base, light_layer_fn1,
 #    ifdef AUDIO_ENABLE
-                                                                                    my_rgblight_layer_audio
+                                                                              light_layer_audio
 #    endif
 );
-#endif
-
-void keyboard_post_init_user(void) {
-#ifdef RGBLIGHT_LAYERS
-    rgblight_layers = my_rgblight_layers;
-
-    // init with 0 layer lighting
-    rgblight_set_layer_state(0, true);
-#    ifdef AUDIO_ENABLE
-    rgblight_set_layer_state(2, is_audio_on());
-#    endif
-#endif
-}
 
 // Set light layer on layer change
-#ifdef RGBLIGHT_LAYERS
 layer_state_t layer_state_set_user(layer_state_t state) {
-    rgblight_set_layer_state(0, layer_state_cmp(state, 0));
-    rgblight_set_layer_state(1, layer_state_cmp(state, 1));
+    rgblight_set_layer_state(_BASE, layer_state_cmp(state, _BASE));
+    rgblight_set_layer_state(_FN1, layer_state_cmp(state, _FN1));
     return state;
 }
+
+#    ifdef AUDIO_ENABLE
+// Helper to set audio indicator light layer
+void set_audio_light_layer(void) { rgblight_set_layer_state(_LL_AUDIO, is_audio_on()); }
+#    endif
+
+void keyboard_post_init_user(void) {
+    rgblight_layers = light_layers;
+
+    // Set initial light layers
+    rgblight_set_layer_state(_BASE, true);
+#    ifdef AUDIO_ENABLE
+    set_audio_light_layer();
+#    endif
+}
+
+#    ifdef AUDIO_ENABLE
+bool process_record_user(uint16_t keycode, keyrecord_t* record) {
+    switch (keycode) {
+        case AU_TOG:
+            // Set audio light layer on keyup
+            if (!record->event.pressed) {
+                set_audio_light_layer();
+            }
+            break;
+    }
+    return true;
+}
+#    endif
 #endif
+
+/* =============
+ * Startup sound
+ * ============= */
 
 #ifdef AUDIO_ENABLE
 float s_seegson[][2] = SONG(SEEGSON);
@@ -74,18 +104,4 @@ void startup_user() {
     _delay_ms(10);  // gets rid of tick
     PLAY_SONG(s_seegson);
 }
-
-#    ifdef RGBLIGHT_LAYERS
-bool process_record_user(uint16_t keycode, keyrecord_t* record) {
-    switch (keycode) {
-        case AU_TOG:
-            // set audio indicator on keyup
-            if (!record->event.pressed) {
-                rgblight_set_layer_state(2, is_audio_on());
-            }
-            break;
-    }
-    return true;
-}
-#    endif
 #endif
